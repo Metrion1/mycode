@@ -39,19 +39,19 @@ while True:
     >""")
 
     if q2== "a":
-        liger =+ 1
+        liger += 1
         break
     elif q2== "b":
-        griffin =+ 1
+        griffin += 1
         break
     elif q2== "c":
-     dragon =+ 1
+     dragon += 1
      break
     elif q2== "d":
-        stick =+ 1
+        stick += 1
         break
     elif q2== "e":
-        pheonix =+ 1
+        pheonix += 1
         break
 
 while True:
@@ -64,19 +64,19 @@ while True:
     >""")
     
     if q3== "a":
-        liger =+ 1
+        liger += 1
         break
     elif q3== "b":
-        stick =+ 1
+        stick += 1
         break
     elif q3== "c":
-        dragon =+ 1
+        dragon += 1
         break
     elif q3== "d":
-        pheonix =+ 1
+        pheonix += 1
         break
     elif q3== "e":
-        griffin =+ 1
+        griffin += 1
         break
 
 while True:
@@ -89,19 +89,19 @@ while True:
     >""")
     
     if q3== "a":
-        liger =+ 1
+        liger += 1
         break
     elif q3== "b":
-        pheonix =+ 1
+        pheonix += 1
         break
     elif q3== "c":
-        dragon =+ 1
+        dragon += 1
         break
     elif q3== "d":
-        stick =+ 1
+        stick += 1
         break
     elif q3== "e":
-        griffin =+ 1
+        griffin += 1
         break
 
 while True:
@@ -114,19 +114,19 @@ while True:
     >""")
     
     if q3== "a":
-        liger =+ 1
+        liger += 1
         break
     elif q3== "b":
-        dragon =+ 1
+        dragon += 1
         break
     elif q3== "c":
-        stick =+ 1
+        stick += 1
         break
     elif q3== "d":
-        pheonix =+ 1
+        pheonix += 1
         break
     elif q3== "e":
-        griffin =+ 1
+        griffin += 1
         break
 
 print(f"""
@@ -136,3 +136,13 @@ Liger: {liger}
 Griffin: {griffin}
 Pheonix: {pheonix}
 Stick: {stick}""")
+if liger > max(dragon, stick, griffin, pheonix):
+    print ("liger! congratualation for all your ferocity and animalistic tendancies you were chosen by a beast just as ferocious and adaptable as you are... your life is set for hardship but you and your companion were born to tear through it all.")
+elif dragonr > max(liger, stick, griffin, pheonix):
+    print ("dragon! congratulations traveler you overwhelming power has been recognized by a beast just as overwhelming. the world, all worlds withing your reach shall bend to your will or be set ablaze.")
+elif pheonix > max(dragon, stick, griffin, liger):
+    print ("pheonix! congratualation for you dear traveler you get the companionship of a pheonix an mythical bird of eternal rebith to match your unending life.")
+elif griffin > max(dragon, stick, liger, pheonix):
+    print ("griffin! congratualation. you get a beast that is wellknown in the magical world. not particularly powerful but is loyal to a fault and you two whal spend your days protecting each other.")
+elif stick > max(dragon, liger, griffin, pheonix):
+    print ("stick...shame on you. Your life was filled with comfort that you did nothing to earn and now you ge tnothing you worthless POS.")
