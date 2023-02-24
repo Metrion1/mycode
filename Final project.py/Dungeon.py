@@ -1,85 +1,165 @@
 #!/usr/bin/python3
-"""survive and escape"""
-from random import randint
+import time
+import random
 
-class Player:
-    def __init__(self):
-        self.health= 10
-        self.attack_min= 5
-        self.attack_max= 20
-        self.prone= False
-        
-    def attack(self, other):
-        roll= random.randint(1,20)
-        
-        if 1 < roll <= 6:
-            print("Oops! You trip- you miss your turn to attack and take double damage this round!")
-            self.prone= True
-            
-            # player falls, takes double damage the next turn, and they can't attack this round
-        elif 7 <= roll <= 14:
-            self.prone= False   # normal attack, regular damage
-            if other.prone == True:
-                 other.health -= randint(self.attack_min, self.attack_max) * 2
-            else:
-                 other.health -= randint(self.attack_min, self.attack_max)
-               
-        else:
-            # double damage, critical hit!
-            self.prone= False
-            if other.prone == True:
-                 other.health -= (self.attack_max * 2) * 2
-            else:
-                 other.health -= self.attack_max * 2
+def start():
+    #setting the scene
+    print("..." "\n... ... \n Your eyes open slowly to a stark white frozen wasteland")
+    time.sleep(2)
+    answer= input("What are you called? \n >")
+    print(f"You start out with {player_strength} strength, {player_health} health, and {player_food} food.")
+    print("----------------------------------------------------------------")
+    time.sleep(1)
+    return answer
 
-class Spider(Player):
-    def __init__(self):
-        self.health= 20
-        self.attack_min= 5
-        self.attack_max= 10
-        self.prone= False
-    
-class Manticore:
-    def __init__(self):
-        self.health= 300
-        self.attack_min= 100
-        self.attack_max= 200
-        self.prone= False
-        
-    def attack(self, other):
-        other.health -= randint(self.attack_min, self.attack_max)
-        
-        
-    
-def left():
-    print("You turn left and head down the hall and step into the murky room. As you stand there the shadows swirl together taking form! A Manticore stands in front of you three times the size of an elephant. Poison drips from its fangs and stinger... IT READIES TO ATTACK! YOU MUST STRIKE FIRST!! You READY A MIGHTY ATTACK!!!\n>")
-    attack
-    
-def right():
-    print("You make a right down a dimly lit hallway. As you step into the room, lights flood the room revealing a large chest. Gold and riches flood out of it as it slowly opens on its own! You take your fill and make your way out the other side to the exit...richer now that you were before!")
+#Player Stats
+player_health = 20
+player_strength = 10
+player_food = 0
+lemming_health = 5
+lemming_str = 1
+bear_health = 400
+bear_str = 40 
+taken_paths = []
+player_name = start() 
 
-def forward():
-    print("You proceed forward. After a short walk you find yourself in a room with high ceilings. As your eyes scale the walls, they are greeted by a pair in the dark then 3 more pairs...the eyes move togther and fixate on you. the start to glow a sinister green illuminating the head of the beast the symbol on its back starts to glow in unison revealing a spider the size of a carriage!! You pee your robe a little bit but steel yourself to the task ahead and ready an attack!\n>")
+print(f"Welcome, {player_name}, to the Frozen Wasteland! Your mission begins now.")
+print("----------------------------------------------------------------")
+# First prompt with 5 paths to choose from
+print("You have awaken on the frozen tundra. You can see a golden disc piercing the clouded sky. \n The ground and sky blend together, and the light makes your eyes hurt if you open them more than a squint.")
 
-def badstart():
-    """this is called when the player fails to make a good choice"""
-    
-def main():
-    print("You awake in a dungeon. All your gear is intact but you are bleeding from the head. You don't know how you got here. Ahead of you lays a dungeon with three paths. you can barely see light at the end of each tunnel indicating an exit. but before each there seems to be a room shifting in and out of dimentions indicating strong magic or a trap. Either way you need to proceed.")
 
-    user_input= input("Please choose a path: left, right, or forward\n>").lower()
+while True: # move this down below all those prints if you don't want to see them every time    
+    print("What do you do?")
+    print("1. Head towards the North.")
+    print("2. Head towards the South.")
+    print("3. Head towards the West.")
+    print("4. Head towards the East.")
 
-    if user_input == "left":
-        left()
-        
-    elif user_input == "right":
-        right()
-        
-    elif user_input == "forward":
-        forward()
-    
-    else:
-        badstart()
+    # Get user input for the first prompt
+    prompt = int(input("Enter the number of your choice: "))
 
-if __name__ == "__main__":
-    main()
+    # Check the user's input and determine the outcome
+    if prompt == 1:
+        if "lemmings" not in taken_paths:
+            print("You hear a rumble, and look around. You see a horde of wild lemmings coming straight at you.")
+
+            while True: # starting an infinite loop
+
+                    if lemming_health <= 0:
+                        player_food += 10
+                        taken_paths.append("lemmings")
+                        print(f"The lemming is dead! You are victorious! You now have {player_food} pieces of food in your inventory.")
+                        # add whatever else you want to happen before combat ends here
+                        break
+
+                    elif player_health <= 0:
+                        print("The lemmings have defeated you! How embarrassing!")
+                        break
+
+                    #Ask the user if they want to attack or flee
+                    decide= input("What do you do?\n(Roll to attack) or (Go back)>")
+
+                    #If the user chooses to attack
+                    if decide.lower() != "roll to attack":
+                        print("You flee!")
+                        break
+                
+
+                    player_roll = random.randint(1, 20) + player_strength
+                    lemming_roll = random.randint(1, 20)
+
+                    #The player rolls higher than the lemming and has a successfull attack
+                    if player_roll > lemming_roll:
+                        damage = random.randint(1, 6) + player_strength
+                        lemming_health -= damage
+                        print(f"You hit the lemming horde for {damage} damage. The horde has {lemming_health} health remaining.")
+                    #The player rolls lower than the lemming 
+                    elif player_roll < lemming_roll:
+                        damage = random.randint(1, 4) + lemming_str
+                        player_health -= damage
+                        print(f"The lemming horde hits you for {damage} damage. You have {player_health} health remaining.")
+                    #The player and the lemming roll the same
+                    elif player_roll == lemming_roll:
+                        print(f"You and the lemming horde both miss!")
+
+
+
+
+    if prompt == 2:
+        if "polar bear" not in taken_paths:
+            print("You feel the ground rumble beneath your frozen feet. You and look around. A giant, white polar bear is coming straight at you!")
+
+            while True: # starting an infinite loop
+
+                    if bear_health <= 0:
+                        print("The bear is dead! That's incredible! You are victorious!")
+                        player_food += 100
+                        taken_paths.append("polar bear")
+                        # add whatever else you want to happen before combat ends here
+                        break
+
+                    elif player_health <= 0:
+                        print("The polar bear feasts on your mangled carcass, you have been defeated!")
+                        print("=============\n GAME OVER\n=============")
+                        exit()
+                        break
+
+                    #Ask the user if they want to attack or flee
+                    decide= input("What do you do?\n(Roll to attack) or (Go back)>")
+
+                    #If the user chooses to attack
+                    if decide.lower() != "roll to attack":
+                        print("You flee!")
+                        break
+
+
+                    player_roll = random.randint(1, 20) + player_strength
+                    bear_roll = random.randint(1, 20) + bear_str
+
+                    #The player rolls higher than the polar bear and has a successfull attack
+                    if player_roll > bear_roll:
+                        damage = random.randint(1, 6) + player_strength
+                        bear_health -= damage
+                        print(f"You hit the polar bear for {damage} damage. The beast has {bear_health} health remaining.")
+                    #The player rolls lower than the bear 
+                    elif player_roll < bear_roll:
+                        damage = random.randint(1, 12) + bear_str
+                        player_health -= damage 
+                        print(f"The polar bear hits you for {damage} damage. You have no health remaining.")
+                    #The player and the bear  roll the same
+                    elif player_roll == bear_roll:
+                        print(f"You and the bear both miss!")
+
+
+    if prompt == 3:
+        if "yellow snow" not in taken_paths:
+            print("You head West, step after dreary step. Do your eyes deceive you? A puddle of mustard steams in front of you. This would pair excellently with any food in your inventory.")
+
+            while True: # starting an infinite loop
+                #Prompt the user for a choice
+                if player_health <= 0:
+                        print("You have contracted leptospirosis and died from kidney and liver failure.")
+                        print("=============\n GAME OVER\n=============")
+                        exit()
+                        break
+                else: 
+
+                    decide= input("What do you do?\n (Eat the mustard) or (Go Back)")
+                    
+                    if decide.lower() == "eat the mustard" and player_food <= 0:
+                        damage = random.randint(1, 12)
+                        player_health -= damage
+                        
+                        print(f"Ew! Gross! That wasn't mustard, that was yellow snow! Your health drops {damage} points and is now at {player_health} points.")
+                    
+                    elif decide.lower() == "eat the mustard" and player_food > 0:
+                        damage = random.randint(1, 4)
+                        player_health -= damage
+                        player_food = player_food -1
+                        print(f"Ew! Gross! That wasn't mustard, that was yellow snow! Your health drops {damage} and you wasted 1 piece of food. You now only have {player_food} pieces of food left.")
+                    
+                        #If the user chooses to attack
+                    if decide.lower() != "eat the mustard":
+                            print("You return to the crossroads.")
+                            break
